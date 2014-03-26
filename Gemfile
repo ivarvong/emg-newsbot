@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+ruby '2.1.0'
+
+gem 'sinatra'
+gem 'puma'
+gem 'celluloid'
+gem 'sucker_punch'
+gem 'httparty'
+gem 'dotenv'
+gem 'twitter'
+gem 'redis'
