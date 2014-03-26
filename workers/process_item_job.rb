@@ -8,16 +8,21 @@ class ProcessItemJob
 
   	$redis.sadd('sent_keys', key) # "lock" it. if we don't get a 201, we'll remove this to retry. no rate limiting.
 
-  	basecamp_project_id = ENV['BASECAMP_PROJECT_ID']
-  	basecamp_account_id = ENV['BASECAMP_ACCOUNT_ID']
-  	app_name = "EMG-NewsBot (ivong@dailyemerald.com)"
-  	auth = { username: ENV['BASECAMP_USERNAME'], password: ENV['BASECAMP_PASSWORD'] }
-  	body = { subject: "#{data[:thread]}: #{data[:contents]}", content: "#{data[:contents]}\r\n\r\n#{data[:link]}" }
+  	body = { 
+  		subject: "#{data[:thread]}: #{data[:contents]}", 
+  		content: "#{data[:contents]}\r\n\r\n#{data[:link]}" 
+  	}
 
 	response = HTTParty.post(
-		"https://basecamp.com/#{basecamp_account_id}/api/v1/projects/#{basecamp_project_id}/messages.json", 
-		headers: {"User-Agent" => app_name, 'Content-Type' => 'application/json'}, 
-		basic_auth: auth,
+		"https://basecamp.com/#{ENV['BASECAMP_ACCOUNT_ID']}/api/v1/projects/#{ENV['BASECAMP_PROJECT_ID']}/messages.json", 
+		headers: {
+			"User-Agent" => "EMG-NewsBot (ivong@dailyemerald.com)", 
+			'Content-Type' => 'application/json'
+		}, 
+		basic_auth: { 
+			username: ENV['BASECAMP_USERNAME'], 
+			password: ENV['BASECAMP_PASSWORD'] 
+		},
 		body: body.to_json
 	)
 	if response.code != 201
@@ -37,4 +42,5 @@ class ProcessItemJob
   	end
 
   end
+  
 end
