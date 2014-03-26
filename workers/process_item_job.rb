@@ -21,7 +21,7 @@ class ProcessItemJob
 		body: body.to_json
 	)
 	if response.code != 201
-		redis.srem('sent_keys', key)
+		$redis.srem('sent_keys', key)
 		raise "Failed to save: #{data}"
 	end
   	
