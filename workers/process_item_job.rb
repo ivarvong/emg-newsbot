@@ -7,11 +7,15 @@ class ProcessItemJob
   def create_notification_for(key, data)
 
   	$redis.sadd('sent_keys', key) # "lock" it. if we don't get a 201, we'll remove this to retry. no rate limiting.
+    user_ids = ($redis.get('user_ids_to_notify') || '').split(',').map(&:to_i)
 
   	body = { 
   		subject: "#{data[:thread]}: #{data[:contents]}", 
-  		content: "#{data[:contents]}\r\n\r\n#{data[:link]}" 
+  		content: "#{data[:contents]}\r\n\r\n#{data[:link]}",
+      subscribers: user_ids      
   	}
+
+    puts JSON.pretty_generate(body)
 
 	response = HTTParty.post(
 		"https://basecamp.com/#{ENV['BASECAMP_ACCOUNT_ID']}/api/v1/projects/#{ENV['BASECAMP_PROJECT_ID']}/messages.json", 
@@ -42,5 +46,5 @@ class ProcessItemJob
   	end
 
   end
-  
+
 end
