@@ -14,7 +14,8 @@ class SearchTwitterJob
 				source: 'twittersearch', 
 				id: tweet.id, 
 				thread: "Twitter Mentions", 
-				contents: tweet.text, 
+				title: tweet.text, 
+				content: tweet.text,
 				link: tweet.uri
 			})
 		end

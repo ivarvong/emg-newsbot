@@ -15,6 +15,7 @@ class EmeraldRSSJob
 				source: source, 
 				id: post_id, 
 				thread: 'Posts (RSS)', 
+				title: title,
 				contents: title, 
 				link: link
 			})

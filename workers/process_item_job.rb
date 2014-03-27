@@ -10,7 +10,7 @@ class ProcessItemJob
     user_ids = ($redis.get('user_ids_to_notify') || '').split(',').map(&:to_i)
 
   	body = { 
-  		subject: "#{data[:thread]}: #{data[:contents]}", 
+  		subject: "#{data[:thread]}: #{data[:title]}", 
   		content: "#{data[:contents]}\r\n\r\n#{data[:link]}",
       subscribers: user_ids      
   	}
