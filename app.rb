@@ -19,7 +19,7 @@ class App < Sinatra::Base
 
 	get "/#{ENV['ENDPOINT']}" do
 		UpdateNotifyListJob.new.async.perform
-		SearchTwitterJob.new.async.perform
+		#SearchTwitterJob.new.async.perform
 		DisqusCommentsJob.new.async.perform
 		EmeraldRSSJob.new.async.perform
 		"Started"
